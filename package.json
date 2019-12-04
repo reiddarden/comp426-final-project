@@ -1,0 +1,24 @@
+{
+  "name": "comp426-final-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "browser-sync": "^2.26.7",
+    "bulma": "^0.8.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/reiddarden/comp426-final-project.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/reiddarden/comp426-final-project/issues"
+  },
+  "homepage": "https://github.com/reiddarden/comp426-final-project#readme"
+}
