@@ -1,8 +1,17 @@
 body {
-    background: #85bb65;  
+    background: #225542;  
 }
  
 h1 {
     text-align: center;
+    color: #69737F !important;
 }
 
+button {
+    background-color: #69737F !important;
+    color: white !important;
+}
+
+#loginColor{
+    color: #69737F !important;
+}
