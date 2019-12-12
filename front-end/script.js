@@ -13,6 +13,7 @@ export const renderSite = function(){
         $(document).on("click", "#logoutButton", handleLogoutButton);
         $(document).on("click", "#loginButton", loginUser);
         $(document).on("click", "#deleteChart", handleDeleteChart);
+        $(document).on("click", "#companyNameAuto", handleAutoClick);
 
     }
 )};
@@ -40,14 +41,25 @@ export async function renderCharts(symbol){
     };
     //Do an array using resultData with ["number. value"]
     let stockSym = resultData["01. symbol"];
-    // Idea: make a non-logged in user only see name and current price. Logged in user
+
+    let currentPrice = resultData["05. price"];
+    currentPrice = currentPrice.substring(0, currentPrice.length - 2);
+    let openPrice = resultData["02. open"];
+    openPrice = openPrice.substring(0, openPrice.length - 2);
+    let lowPrice = resultData["04. low"];
+    lowPrice = lowPrice.substring(0, lowPrice.length - 2);
+    let highPrice = resultData["03. high"];
+    highPrice = highPrice.substring(0, highPrice.length - 2);
+    let closePrice = resultData["08. previous close"];
+    closePrice = closePrice.substring(0, closePrice.length - 2);
+   
     chart += `<div id="singleChart" class="box">
                  <h1 class="has-text-centered">${stockName} (${stockSym}) ${percentChange}</h1>
-                 <p>Current Price: $${resultData["05. price"]}</p>
-                 <p>Open: $${resultData["02. open"]}</p>
-                 <p>Today's Low: $${resultData["04. low"]}</p>
-                 <p>Today's High: $${resultData["03. high"]}</p>
-                 <p>Previous Close: $${resultData["08. previous close"]}</p> 
+                 <p>Current Price: $${currentPrice}</p>
+                 <p>Open: $${openPrice}</p>
+                 <p>Today's Low: $${lowPrice}</p>
+                 <p>Today's High: $${highPrice}</p>
+                 <p>Previous Close: $${closePrice}</p> 
                  <button class="button is-danger is-centered" id="deleteChart">Delete Chart</button>
             </div>`;
     
@@ -136,10 +148,10 @@ export const newButtons = function(event){
     
     let $memberButton = $('#memberButton');
     $memberButton.replaceWith(`<div id="memberButtons">
-                                    <button class="button is-small is-dark" id="newMember">
+                                    <button class="button is-small is-dark is-rounded" id="newMember">
                                     New Member
                                     </button>
-                                    <button class="button is-small is-dark" id="returnMember">
+                                    <button class="button is-small is-dark is-rounded" id="returnMember">
                                     Returning Member
                                     </button>
                                 </div>`);
@@ -160,7 +172,7 @@ export async function postNewUser(){
     let $memberButton = $('#memberButton');
     $memberButton.replaceWith(` <div id="memberButton">
                                     <div class="has-text-centered is-size-6">
-                                        <p>Welcome, ${userNameEntry}!</p>
+                                        <p>Logged in as: ${userNameEntry}</p>
                                         <button id="logoutButton" class="button is-small is-danger is-light">Logout</button>    
                                     </div>
                                 </div>`);
@@ -186,11 +198,52 @@ export async function loginUser(){
     let $memberButton = $('#memberButton');
     $memberButton.replaceWith(` <div id="memberButton">
                                     <div class="has-text-centered is-size-6">
-                                        <p>Welcome, ${userNameEntry}!</p>
+                                        <p>Logged in as: ${userNameEntry}</p>
                                         <button id="logoutButton" class="button is-small is-danger is-light">Logout</button>    
                                     </div>
                                 </div>`);
 
     console.log(loginUser);   
     return true;          
+}
+// Autocomplete stuff
+// Credit to https://www.youtube.com/watch?v=1iysNUrI3lw&t=595s for this way of doing autocomplete
+const $quoteName = document.getElementById('quoteName');
+const $matchList = document.getElementById('match-list');
+
+export const searchNames = async searchText => {
+    const res = await fetch('companies.json');
+    const names = await res.json();
+    
+    let matches = names.filter(company => {
+        const regex = new RegExp(`^${searchText}`, 'gi');
+        return company["Company Name"].match(regex) || company["Symbol"].match(regex);
+    });
+    if(searchText.length === 0){
+        matches = [];
+        $matchList.innerHTML = '';
+    }
+    addDropdown(matches);
+};
+const dropSym = '';
+const addDropdown = matches => {
+    if(matches.length > 0){
+        const html = matches.map(match => `
+            <div class="button" id="companyNameAuto">
+            
+            <h4>${match["Company Name"]} (${match["Symbol"]})</h4>
+         
+            </div>
+        `).join('');
+        $matchList.innerHTML = html;
+    };
+    
+};
+$quoteName.addEventListener('input', () => searchNames($quoteName.value));
+// make input the clicked button value 
+export const handleAutoClick = function(event){
+    let input = $quoteName.value;
+    renderCharts(input);
+    document.getElementById('quoteName').value='';
+    document.getElementById('match-list').innerHTML = `<div id="match-list">  </div>`;
 }
