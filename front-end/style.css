@@ -1,0 +1,27 @@
+/* 
+Main color (green) = #225542
+Secondary color (grey) = #69737F
+*/
+
+body {
+    background: #225542;  
+}
+ 
+h1 {
+    text-align: center;
+    
+}
+
+button {
+    /*background-color: #69737F !important;*/
+    color: white !important;
+    margin-bottom: 5px;
+}
+
+#loginColor{
+    color: #69737F !important;
+}
+
+input {
+    margin-bottom: 5px;
+}

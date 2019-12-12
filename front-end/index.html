@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StockWorks</title>
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.css">
+  <link rel="stylesheet" type="text/css" href="./style.css">
+</head>
+
+<body>
+  <section class="hero is-fullheight">
+    <div class="hero-body">
+      <div class="container">
+        <div class="columns is-centered">
+          <div class="box has-text-centered is-size-3">
+            <div id="memberButtons">
+              <button class="button is-small is-dark" id="newMember">
+                New Member
+              </button>
+              <button class="button is-small is-dark" id="returnMember">
+                Returning Member
+              </button>
+            </div>
+            <h1>Welcome to StockWorks!</h1>
+            <p>Type in a stock name to generate stock data!</p>
+            <br />
+            <form>
+              <input type="text" value="" id="quoteName" class="input is-small">
+              <br />
+              <button type="button" id="submitButton" class="button is-success">Submit</button>
+            </form>
+            <div id="root">
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</body>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+<script type="module" src="./script.js"></script>
+
+</html>
+
+
