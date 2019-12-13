@@ -1,0 +1,25 @@
+{
+  "users": {
+    "test": {
+      "passwordHash": "$2b$10$gbUla5E7vpILC7LTW.dkIujtvw36lASPW1ooTZWjI07D/EzMUaqdC"
+    },
+    "test123": {
+      "passwordHash": "$2b$10$NLEdzhW0DRHcmwZhsEkAbev/BjeOGirTV6R0K2.jUxTosFessqJzm"
+    },
+    "reid": {
+      "passwordHash": "$2b$10$69X5LeCLYLAlid8dH9llxeQoDt6RDscWtYZNfdJDepaxG7xRdK3/K"
+    },
+    "testing": {
+      "passwordHash": "$2b$10$vYWWphf1QlkWk6nQh0POuenn4KB1rpiAky4N6kA9Vl7Zomyss3Geq"
+    },
+    "testing1": {
+      "passwordHash": "$2b$10$0md/wagIvNiIBjB3Xaumaemg4xIrZevKHhMovQIwXyHAlbQ6lN4kq"
+    },
+    "reid1": {
+      "passwordHash": "$2b$10$yVL4NlfF9k/1hYWPWN5oh.O4WbSOXSq2E0s0aA2lFbY2AOHpsQ0d6"
+    },
+    "user": {
+      "passwordHash": "$2b$10$s4wTYA8K/aK25KqK.pBBjeJGFLkS5Bf4hLKeqpFxrhQ.RGI5hfZCW"
+    }
+  }
+}
