@@ -2,8 +2,8 @@ let token = 'JOWX4WXIPMBE9IYU';
 let loggedIn = false;
 
 
-export const renderSite = function(){
-    $(document).ready(function() {
+export const renderSite = function () {
+    $(document).ready(function () {
         // Button Handling
         $(document).on("click", "#submitButton", handleSubmitButton);
         $(document).on("click", "#newMember", changeNewMember);
@@ -16,27 +16,28 @@ export const renderSite = function(){
         $(document).on("click", "#companyNameAuto", handleAutoClick);
 
     }
-)};
+    )
+};
 
 $(function () {
     renderSite();
 });
- 
-export async function renderCharts(symbol){
+
+export async function renderCharts(symbol) {
     let quoteName = await changeName(symbol);
     const $root = $('#root');
     const quoteResult = await axios({
         method: 'get',
-        url: 'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol='+ quoteName +'&apikey=' + token + '&datatype=json',
+        url: 'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=' + quoteName + '&apikey=' + token + '&datatype=json',
 
     });
-   
+
     let stockName = await getName(symbol);
     let chart = `<div id="chart">`
-    let resultData= quoteResult.data["Global Quote"];
+    let resultData = quoteResult.data["Global Quote"];
     // Look into how to get all the available names from the above API call 
     let percentChange = resultData["10. change percent"];
-    if(!(percentChange.startsWith("-"))){
+    if (!(percentChange.startsWith("-"))) {
         percentChange = "+" + percentChange;
     };
     //Do an array using resultData with ["number. value"]
@@ -52,7 +53,7 @@ export async function renderCharts(symbol){
     highPrice = highPrice.substring(0, highPrice.length - 2);
     let closePrice = resultData["08. previous close"];
     closePrice = closePrice.substring(0, closePrice.length - 2);
-   
+
     chart += `<div id="singleChart" class="box">
                  <h1 class="has-text-centered">${stockName} (${stockSym}) ${percentChange}</h1>
                  <p>Current Price: $${currentPrice}</p>
@@ -62,54 +63,53 @@ export async function renderCharts(symbol){
                  <p>Previous Close: $${closePrice}</p> 
                  <button class="button is-danger is-centered" id="deleteChart">Delete Chart</button>
             </div>`;
-    
+
     chart += `</div>`
     $root.append(chart);
+    document.getElementById('match-list').innerHTML = `<div id="match-list">  </div>`;
+
 }
 // Buttons
-export const handleSubmitButton = function(event) {
+export const handleSubmitButton = function (event) {
     event.preventDefault();
     let submitValue = document.getElementById('quoteName').value;
     renderCharts(submitValue);
-    document.getElementById('quoteName').value='';
+    document.getElementById('quoteName').value = '';
 }
 
-export const handleLogoutButton = function(event){
+export const handleLogoutButton = function (event) {
     event.preventDefault();
-    let JWT = localStorage.setItem
     loggedIn = false;
-    $('#chart').remove();
-    console.log('1234');
+    document.getElementById('chart').innerHTML = `<div id="chart"> </div>`;
     newButtons();
-    localStorage.clear();
 }
 
-export const handleDeleteChart = function(event){
+export const handleDeleteChart = function (event) {
     event.preventDefault();
     $('#singleChart').remove();
 }
 
 // changing from name to symbol
-export async function changeName(symbol){
-  const name = await axios({
-       method: 'get',
-       url:'https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords='+ symbol +'&apikey=' + token,
-   });
-   let newSymbol = name.data["bestMatches"][0]["1. symbol"];
-   
-   return newSymbol;
-   
-}
-export async function getName(symbol){
+export async function changeName(symbol) {
     const name = await axios({
-         method: 'get',
-         url:'https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords='+ symbol +'&apikey=' + token,
-     });
-     let newSymbol = name.data["bestMatches"][0]["2. name"];
-     return newSymbol;
-    }
+        method: 'get',
+        url: 'https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=' + symbol + '&apikey=' + token,
+    });
+    let newSymbol = name.data["bestMatches"][0]["1. symbol"];
+
+    return newSymbol;
+
+}
+export async function getName(symbol) {
+    const name = await axios({
+        method: 'get',
+        url: 'https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=' + symbol + '&apikey=' + token,
+    });
+    let newSymbol = name.data["bestMatches"][0]["2. name"];
+    return newSymbol;
+}
 // Member Button handling functions
-export const changeNewMember = function(event){
+export const changeNewMember = function (event) {
     event.preventDefault();
     let $memberButton = $('#memberButtons');
     $memberButton.replaceWith(`
@@ -128,7 +128,7 @@ export const changeNewMember = function(event){
 
 
 
-export const changeReturningMember = function(event){
+export const changeReturningMember = function (event) {
     event.preventDefault();
     let $memberButton = $('#memberButtons');
     $memberButton.replaceWith(`
@@ -144,8 +144,8 @@ export const changeReturningMember = function(event){
                         </div>`);
 }
 
-export const newButtons = function(event){
-    
+export const newButtons = function (event) {
+
     let $memberButton = $('#memberButton');
     $memberButton.replaceWith(`<div id="memberButtons">
                                     <button class="button is-small is-dark is-rounded" id="newMember">
@@ -158,12 +158,12 @@ export const newButtons = function(event){
     console.log("here");
 }
 
-export async function postNewUser(){
+export async function postNewUser() {
     let userNameEntry = document.getElementById('newUsername').value;
     let userPassEntry = document.getElementById('newPassword').value;
     const postUser = await axios({
         method: 'post',
-        url:'http://localhost:3000/account/create',
+        url: 'http://localhost:3000/account/create',
         data: {
             name: userNameEntry,
             pass: userPassEntry,
@@ -180,12 +180,12 @@ export async function postNewUser(){
     console.log(postUser);
 }
 
-export async function loginUser(){
+export async function loginUser() {
     let userNameEntry = document.getElementById('returnUser').value;
     let userPassEntry = document.getElementById('returnPass').value;
     const loginUser = await axios({
         method: 'post',
-        url:'http://localhost:3000/account/login',
+        url: 'http://localhost:3000/account/login',
         data: {
             name: userNameEntry,
             pass: userPassEntry,
@@ -203,8 +203,8 @@ export async function loginUser(){
                                     </div>
                                 </div>`);
 
-    console.log(loginUser);   
-    return true;          
+    console.log(loginUser);
+    return true;
 }
 // Autocomplete stuff
 // Credit to https://www.youtube.com/watch?v=1iysNUrI3lw&t=595s for this way of doing autocomplete
@@ -214,36 +214,40 @@ const $matchList = document.getElementById('match-list');
 export const searchNames = async searchText => {
     const res = await fetch('companies.json');
     const names = await res.json();
-    
+
     let matches = names.filter(company => {
         const regex = new RegExp(`^${searchText}`, 'gi');
         return company["Company Name"].match(regex) || company["Symbol"].match(regex);
     });
-    if(searchText.length === 0){
+    if (searchText.length === 0) {
         matches = [];
         $matchList.innerHTML = '';
     }
     addDropdown(matches);
 };
 const dropSym = '';
+let nameArr = [];
 const addDropdown = matches => {
-    if(matches.length > 0){
+    if (matches.length > 0) {
         const html = matches.map(match => `
             <div class="button" id="companyNameAuto">
             
-            <h4>${match["Company Name"]} (${match["Symbol"]})</h4>
+            <h4>${match["Company Name"]} <span id="autoSym">(${match["Symbol"]})</span></h4>
          
             </div>
         `).join('');
         $matchList.innerHTML = html;
+
     };
-    
+
 };
 $quoteName.addEventListener('input', () => searchNames($quoteName.value));
 // make input the clicked button value 
-export const handleAutoClick = function(event){
-    let input = $quoteName.value;
+export const handleAutoClick = function (event) {
+    let input = $('#companyNameAuto').text();
+    $quoteName.value = input;
+    console.log(input);
     renderCharts(input);
-    document.getElementById('quoteName').value='';
+    document.getElementById('quoteName').value = '';
     document.getElementById('match-list').innerHTML = `<div id="match-list">  </div>`;
 }
